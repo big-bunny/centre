@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import bgVideo from './assets/bg/bg.mp4';
+import bgVideo from './assets/bg/1d.mp4';
 import './index.css';
 
 interface Event {

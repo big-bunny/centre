@@ -1,4 +1,13 @@
 import { useState } from 'react';
+import homeBg from '/images/bg/4k.jpg';
+const truncateText = (text: string, maxLength: number) => {
+  const words = text.split(' ');
+  if (words.length <= maxLength) {
+    return text;
+  }
+  const truncatedWords = words.slice(0, maxLength);
+  return truncatedWords.join(' ') + "...";
+};
 
 const Home = () => {
   const news = [
@@ -27,15 +36,14 @@ const Home = () => {
       ref: 'https://www.albanyadvertiser.com.au/news/albany-advertiser/kenya-school-supported-by-albany-community-bouncing-back-after-the-affects-of-the-covid-pandemic-c-9185041',
     },
   ];
-
   const testimonials = [
     {
       id: 4,
       quote: 'Stanley is currently in Grade 3 and is doing well. He came to us after his parent split and the mother was thrown out of the house with no where to go. Our head teacher was called as he was of the same tribe to see how the mother and children could be helped as they were found sitting on the side of the road in the rain.The mother had nothing except a small bag of clothes. We accepted Stanley into our program and a lovely lady from Carnavon in Western Australia has been assisting him. Initially he was very low in his academics and we put him back a class as he was struggling. After doing this he was able to stabilize and now doing very well. Thankyou Mrs J for your assistance.',
       author: 'Mark Stanley',
-      image: '/images/testimonials/testimoial1.jpg',
-      resultsChart: '/images/testimonials/MarkStanely .jpg',
-      videoUrl: '/images/testimonials/MarkStanely .mp4',
+      image: '/images/testimonials/testimonial1.jpg',
+      resultsChart: '/images/testimonials/MarkStanely.jpg',
+      videoUrl: '/images/testimonials/MarkStanely.mp4',
     },
     {
       id: 5,
@@ -50,12 +58,22 @@ const Home = () => {
       quote: 'Samuel was one of our first admissions to Schield when we opened in 2014. He was later joined by 3 siblings. We have assisted this family a lot, the mother is having 10 children and these were the last 4. She is HIV+ and with some mental issues, not being able to support all the children and especially with the cost of education, Finding food and rent was an uphill battle as the husband was of no help and everything was left to the mother. We realized that Sam was bright when he came to school he was 7 and never been to school - within 1 year he was reading. Consistently Sam topped the class throughout his time with us and last year completed his Primary leaving certificate and did well. He was called to a National School, and we were hopeful that he would win a scholarship - however this did not materialize. At the beginning of this year he was very stressed as he was very much wanting to continue his studies - when I realized that if nothing was done to help Sam that he would not join form 1 - I put out a message on social media and am grateful for the support that allowed us to get him into school. He is doing well and we are encouraging him to achieve his best. He is from a complicated family situation and has requested to stay with us during the holidays as there is no room at home and he cannot study. Sam has become like a 3rd son to us. We are grateful to the generous Australians who are assisting him to continue his education. Asante Sana.',
       author: 'Samuel',
       image: '/images/testimonials/form1.jpeg',
+      videoUrl: '/images/testimonials/Samuel.mp4',
     },
   ];
   
+  
   const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [] = useState(1);
+  const [expandedTestimonials, setExpandedTestimonials] = useState<number[]>([]);
+
+  const toggleExpandTestimonial = (testimonialId: number) => {
+    if (expandedTestimonials.includes(testimonialId)) {
+      setExpandedTestimonials(expandedTestimonials.filter(id => id !== testimonialId));
+    } else {
+      setExpandedTestimonials([...expandedTestimonials, testimonialId]);
+    }
+  };
 
   const openPdfModal = (pdf: string) => {
     setSelectedPdf(pdf);
@@ -69,142 +87,134 @@ const Home = () => {
     setSelectedPdf(null);
     setSelectedImage(null);
   };
-
-
-
+  
   return (
-      <div className="min-h-screen">
-        <main className="max-w-4xl mx-auto py-8">
-          <section className="">
-            <h1 className="text-4xl p-3 font-extrabold mb-4 bg-gradient-to-r from-green-500 rounded-full">Welcome to the Schield Centre</h1>
-          </section>
+    <div className="min-h-screen" style={{ 
+      backgroundImage: `url(${homeBg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    }}>
+      <main className="mx-auto py-8">
+        <section className="">
+          <h1 className="text-4xl p-3 font-extrabold mb-4 bg-gradient-to-r from-green-500 rounded-full">Welcome to the Schield Centre</h1>
+        </section>
 
-          <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">News</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-              {news.map((item) => (
-                <div key={item.id} className="bg-white shadow-lg rounded-lg p-6">
-                  {item.pdf ? (
-                    <div>
-                      <button
-                        className="text-blue-600 hover:underline"
-                        onClick={() => openPdfModal(item.pdf)}
-                      >
-                        {item.title}
-                      </button>
-                      {item.preview && (
-                        <object
-                          data={item.preview}
-                          type="application/pdf"
-                          width="100%"
-                          height="275px"
-                        >
-                          <p>PDF cannot be displayed</p>
-                        </object>
-                      )}
-                    </div>
-                  ) : (
-                    <a
-                      href={item.ref}
-                      target="_blank"
-                      rel="noopener noreferrer"
+        <section className="mt-12">
+          <h2 className="text-2xl font-bold mb-4">News</h2>
+       
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+            {news.map((item) => (
+              <div key={item.id} className="bg-white shadow-lg rounded-lg p-6">
+                {item.pdf ? (
+                  <div>
+                    <button
                       className="text-blue-600 hover:underline"
+                      onClick={() => openPdfModal(item.pdf)}
                     >
                       {item.title}
-                    </a>
-                  )}
-                  {item.image && (
-                    <div className="mt-4">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="rounded-md w-full cursor-pointer"
-                        onClick={() => openImageModal(item.image)}
-                        width={400}
-                        height={300}
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="mt-12">
-            <h2 className="text-3xl font-extrabold text-white mb-4">Testimonials</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {testimonials.map((item) => (
-                <div key={item.id} className="backdrop-blur-2xl shadow-lg rounded-lg p-6">
-                  <img
-                    src={item.image}
-                    alt={item.author}
-                    className="rounded-full w-12 h-12 object-cover mr-4"
-                    width={48}
-                    height={48}
-                  />
-                  <div>
-                    <p className="font-bold text-2xl text-green-300">{item.author}</p>
+                    </button>
+                    {item.preview && (
+                      <object
+                        data={item.preview}
+                        type="application/pdf"
+                        width="100%"
+                        height="275px"
+                      >
+                        <p>PDF cannot be displayed</p>
+                      </object>
+                    )}
                   </div>
-                  <p className="font-bold text-xl text-gray-300">{item.quote}</p>
-                  <div className="flex items-center mt-4">
-                    <div className="mr-4">
-                      <h3 className="font-semibold text-lg text-white">Results</h3>
-                      {item.image && (
-                        <div className="mt-4">
-                          <img
-                            src={item.image}
-                            alt={item.author}
-                            className="rounded-md w-full cursor-pointer"
-                            onClick={() => openImageModal(item.image)}
-                            width={400}
-                            height={300}
-                          />
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg text-white">Video Testimonies</h3>
-                      {item.videoUrl && (
-                        <video width="100%" controls>
-                          <source src={item.videoUrl} type="video/mp4" />
-                        </video>
-                      )}
-                    </div>
+                ) : (
+                  <a
+                    href={item.ref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    {item.title}
+                  </a>
+                )}
+                {item.image && (
+                  <div className="mt-4">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="rounded-md w-full cursor-pointer"
+                      onClick={() => openImageModal(item.image)}
+                      width={400}
+                      height={300}
+                    />
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {selectedPdf && (
-            <div
-              className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
-              onClick={closeModals}
-            >
-              <div className="bg-white rounded-lg p-4 w-full max-w-4xl mx-auto">
-                <embed src={selectedPdf} type="application/pdf" width="100%" height="600px" />
+                )}
               </div>
-            </div>
-          )}
+            ))}
+          </div>
+        </section>
 
-          {selectedImage && (
-            <div
-              className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
-              onClick={closeModals}
-            >
-              <div className="bg-white rounded-lg p-4 w-full max-w-4xl mx-auto">
-                <img 
-                  src={selectedImage}
-                  alt="Selected Image"
-                  className="w-full"
-                  width={800}
-                  height={600}
-                />
-              </div>
-            </div>
-          )}
-        </main>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {testimonials.map((item) => (
+    <div key={item.id} className="backdrop-blur-3xl shadow-lg rounded-lg p-6">
+      <img
+        src={item.image}
+        alt={item.author}
+        className="rounded-full w-12 h-12 object-cover mr-4"
+        width={48}
+        height={48}
+      />
+      <div>
+        <p className="font-bold text-2xl text-green-300">{item.author}</p>
       </div>
+      <div>
+        <p className="font-bold text-xl text-gray-300">
+          {expandedTestimonials.includes(item.id) ? item.quote : truncateText(item.quote, 30)}
+        </p>
+        {item.quote.length > 30 && !expandedTestimonials.includes(item.id) && (
+          <button className="text-blue-600 hover:underline" onClick={() => toggleExpandTestimonial(item.id)}>
+            Read More
+          </button>
+        )}
+      </div>
+      {item.videoUrl && (
+        <video width="320" height="240" controls>
+          <source src={item.videoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
+    </div>
+  ))}
+</div>
+
+
+        {selectedPdf && (
+          <div
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+            onClick={closeModals}
+          >
+            <div className="bg-white rounded-lg p-4 w-full max-w-4xl mx-auto">
+              <embed src={selectedPdf} type="application/pdf" width="100%" height="600px" />
+            </div>
+          </div>
+        )}
+
+        {selectedImage && (
+          <div
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+            onClick={closeModals}
+          >
+            <div className="bg-white rounded-lg p-4 w-full max-w-4xl mx-auto">
+              <img 
+                src={selectedImage}
+                alt="Selected Image"
+                className="w-full"
+                width={800}
+                height={600}
+              />
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
   );
 };
 
