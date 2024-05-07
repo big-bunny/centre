@@ -89,12 +89,10 @@ const Home = () => {
   };
   
   return (
-    <div className="min-h-screen" style={{ 
-      backgroundImage: `url(${homeBg})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-    }}>
+
+        <div className="min-h-screen flex flex-col">
+      <div className="flex-grow bg-cover bg-center" style={{ backgroundImage: `url(${homeBg})` }}>
+      
       <main className="mx-auto py-8">
         <section className="">
           <h1 className="text-4xl p-3 font-extrabold mb-4 bg-gradient-to-r from-green-500 rounded-full">Welcome to the Schield Centre</h1>
@@ -214,6 +212,7 @@ const Home = () => {
           </div>
         )}
       </main>
+    </div> 
     </div>
   );
 };
