@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import App from './App.tsx';
+import App from './App.tsx'; // Assuming App component as the main entry
 import Home from './pages/home.tsx';
 import About from './pages/about.tsx';
 import './index.css';
@@ -19,26 +19,30 @@ if (!PUBLISHABLE_KEY) {
 }
 
 const rootElement = document.getElementById('root');
-const root = createRoot(rootElement);
+if (rootElement) { // Handle potential missing root element gracefully
+  const root = createRoot(rootElement);
 
-root.render(
-  <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <Router>
-        <RootLayout>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/child" element={<Child />} />
-            <Route path="/program" element={<SponsorProgram />} />
-            <Route path="/donate" element={<DonationPage />} />
-            <Route path="/redirect" element={<Navigate to="/home" />} />
-          </Routes>
-        </RootLayout>
-      </Router>
-    </ClerkProvider>
-  </React.StrictMode>
-);
+  root.render(
+    <React.StrictMode>
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+        <Router>
+          <RootLayout>
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/child" element={<Child />} />
+              <Route path="/program" element={<SponsorProgram />} />
+              <Route path="/donate" element={<DonationPage />} />
+              <Route path="/redirect" element={<Navigate to="/home" />} />
+            </Routes>
+          </RootLayout>
+        </Router>
+      </ClerkProvider>
+    </React.StrictMode>
+  );
+} else {
+  console.error('Failed to find root element with ID "root"');
+}

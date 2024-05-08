@@ -42,7 +42,7 @@ const Home = () => {
       quote: 'Stanley is currently in Grade 3 and is doing well. He came to us after his parent split and the mother was thrown out of the house with no where to go. Our head teacher was called as he was of the same tribe to see how the mother and children could be helped as they were found sitting on the side of the road in the rain.The mother had nothing except a small bag of clothes. We accepted Stanley into our program and a lovely lady from Carnavon in Western Australia has been assisting him. Initially he was very low in his academics and we put him back a class as he was struggling. After doing this he was able to stabilize and now doing very well. Thankyou Mrs J for your assistance.',
       author: 'Mark Stanley',
       image: '/images/testimonials/testimonial1.jpg',
-      resultsChart: '/images/testimonials/MarkStanely.jpg',
+      resultsChart: '/images/testimonials/MarkStanley.jpg',
       videoUrl: '/images/testimonials/MarkStanely.mp4',
     },
     {
@@ -174,10 +174,10 @@ const Home = () => {
         )}
       </div>
       {item.videoUrl && (
-        <video width="320" height="240" controls>
-          <source src={item.videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+   <video width="320" height="240" controls>
+   <source src={item.videoUrl} type="video/mp4" />
+   Your browser does not support the video tag.
+ </video>
       )}
     </div>
   ))}

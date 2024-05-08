@@ -1,7 +1,7 @@
-// Header.jsx
 import { useState } from 'react';
 import { UserButton, useUser } from '@clerk/clerk-react';
 import UserGreeting from './UserGreeting';
+import logo from '../../public/g-Logo.png';
 
 const Header = () => {
   const [] = useState(false);
@@ -15,7 +15,6 @@ const Header = () => {
     { text: 'Gallery', url: '/gallery' },
     { text: 'Team', url: '/team' }
   ];
-
 
   const donateDropdown = [
     { text: 'Donate4Child', url: '/child' },
@@ -33,8 +32,10 @@ const Header = () => {
   return (
     <header className="backdrop-blur-3xl text-white py-4 relative z-50">
       <div className="container mx-auto flex items-center justify-between">
-        <a href="/" className="text-2xl font-bold">
-          SchieldCentre
+        {/* Replace text with logo */}
+        <a href="/" className="flex items-center">
+          <img src={logo} alt="Logo" className="mr-2 w-auto transform hover:scale-105 transition-transform duration-300" style={{ height: '3rem', maxWidth: 'auto', transformOrigin: 'center' }} />
+          <span className="text-2xl font-bold">SchieldCentre</span>
         </a>
         <div className="md:hidden flex items-center">
           <button

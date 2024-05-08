@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhone, faEnvelope, faMapMarker, faComments } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faEnvelope, faMapMarker } from '@fortawesome/free-solid-svg-icons';
 import { faComments as farComments } from '@fortawesome/free-solid-svg-icons';
 
 const ContactSection: React.FC = () => {

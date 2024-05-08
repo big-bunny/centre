@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 interface Profile {
   id: number;
   title: string;
-  pdf?: string | undefined;
-  preview?: string | undefined;
-  image?: string | undefined;
+  pdf?: string;
+  preview?: string;
+  image?: string;
 }
 
 const Team: React.FC = () => {
@@ -25,73 +25,16 @@ const Team: React.FC = () => {
       id: 7,
       title: 'Tr Nyakundi',
       image: '/images/staff/nyakundi.jpg',
-    },
-    {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },  {
-      id: 7,
-      title: 'Tr Nyakundi',
-      image: '/images/staff/nyakundi.jpg',
-    },
+    }, // Your profile data...
   ];
 
   const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const openPdfModal = (pdf: string) => {
-    setSelectedPdf(pdf);
+  const openPdfModal = (pdf: string | undefined) => {
+    setSelectedPdf(pdf || null);
   };
-
+  
   const openImageModal = (image: string) => {
     setSelectedImage(image);
   };
@@ -102,15 +45,13 @@ const Team: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-cover" style={{ backgroundImage: 'url(/images/bg/shelf.jpg)' }}>
-      <main className="max-w-4xl mx-auto ">
-        {/* ... */}
-
-        <section >
+    <div className="min-h-screen w-screen bg-cover bg-center flex justify-center items-center" style={{ backgroundImage: 'url(/images/bg/shelf.jpg)' }}>
+      <main className="max-w-4xl mx-auto">
+        <section className="py-8">
           <h2 className="text-2xl font-bold mb-4">Team Profiles</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {profiles.map((item) => (
-              <div key={item.id} className="backdrop-blur-3xl shadow-lg rounded-lg p-6">
+              <div key={item.id} className="backdrop-blur-3xl shadow-lg rounded-lg p-6 animate-zoom-in transition-transform hover:scale-105">
                 {item.pdf ? (
                   <div>
                     <button
@@ -137,7 +78,7 @@ const Team: React.FC = () => {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          if (item.title) {
+                          if (typeof item.title === 'string') {
                             window.open(item.title, '_blank');
                           }
                         }}
@@ -152,7 +93,11 @@ const Team: React.FC = () => {
                           src={item.image}
                           alt={item.title ?? ''}
                           className="rounded-md w-full cursor-pointer"
-                          onClick={() => openImageModal(item.image)}
+                          onClick={() => {
+                            if (typeof item.image === 'string') {
+                              openImageModal(item.image);
+                            }
+                          }}
                           width={400}
                           height={300}
                         />
@@ -165,14 +110,12 @@ const Team: React.FC = () => {
           </div>
         </section>
 
-        {/* ... */}
-
         {selectedPdf && (
           <div
-            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity ease-in-out duration-300"
             onClick={closeModals}
           >
-            <div className="bg-white rounded-lg p-4 w-full max-w-4xl mx-auto">
+            <div className="bg-white rounded-lg p-4 w-full max-w-4xl mx-auto transform scale-105 hover:scale-100 transition-transform">
               <embed src={selectedPdf} type="application/pdf" width="100%" height="600px" />
             </div>
           </div>
@@ -180,10 +123,10 @@ const Team: React.FC = () => {
 
         {selectedImage && (
           <div
-            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity ease-in-out duration-300"
             onClick={closeModals}
           >
-            <div className="bg-white rounded-lg p-4 w-full max-w-4xl mx-auto">
+            <div className="bg-white rounded-lg p-4 w-full max-w-4xl mx-auto transform scale-105 hover:scale-100 transition-transform">
               <img
                 src={selectedImage}
                 alt="Selected Image"
