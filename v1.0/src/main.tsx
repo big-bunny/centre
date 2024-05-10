@@ -36,7 +36,7 @@ if (rootElement) { // Handle potential missing root element gracefully
               <Route path="/child" element={<Child />} />
               <Route path="/program" element={<SponsorProgram />} />
               <Route path="/donate" element={<DonationPage />} />
-              <Route path="/redirect" element={<Navigate to="/home" />} />
+              <Route path="/redirect" element={<Navigate to="/" />} />
             </Routes>
           </RootLayout>
         </Router>
