@@ -48,15 +48,33 @@ const AboutPage = () => {
             <div className="text-3xl text-white text-center py-10 overflow-hidden">
               <h1 className="text-4xl bold mb-4">HISTORY</h1>
               <p>
-                Schield Center is a school located in Kajiado, officially established in 2008 by Patricia Schield, an American woman who made a courageous decision. Patricia sold everything she owned and utilized her inheritance to initiate the school. Tragically, Patricia passed away in 2008 before witnessing her dreams come to fruition. Feeling like she had failed, Patricia's dying wish to Joseph Mboya was to establish the school through trustees and fundraising efforts.
+                Schield Centre is a school located in Kajiado, officially established in 2008 by Patricia Schield, an American woman who made a courageous decision. Patricia sold everything she owned and utilized her inheritance to initiate the school. Tragically, Patricia passed away in 2008 before witnessing her dreams come to fruition. Feeling like she had failed, Patricia's dying wish to Joseph Mboya was to establish the school through trustees and fundraising efforts.
               </p>
+           
               {showOverflow && (
-                <>
-                  <p>Additional text line 1</p>
-                  <p>Additional text line 2</p>
-                  {/* Add more lines as needed */}
-                </>
-              )}
+  <>
+    <p>
+      Nestled amidst the picturesque Maasai Plains of Kajiado County stands Schield Centre, a beacon of educational excellence and social empowerment. With a student body of 250 and a faculty of 15 dedicated educators, Schield Centre epitomizes commitment to academic rigor and holistic development.
+    </p>
+
+    <p>
+      At the helm of this noble endeavor was the visionary Patricia Schield, an indomitable force hailing from Fort Lauderdale, Florida, USA. Fueled by compassion and a fervent desire to uplift disadvantaged children in remote regions, she embarked on a transformative journey. Despite the challenges of age, Patricia embarked on a quest for knowledge, redefining herself as an educator with a singular purpose.
+    </p>
+
+    <p>
+      Undeterred by adversity, Patricia forged ahead, securing 10 acres of land on the outskirts of Isinya, strategically positioned along the Namanga Highway. Amidst the trials of illness and betrayal, her unwavering resolve persisted, culminating in the establishment of Schield Centre. Entrusting her legacy to the capable hands of Joseph Mboya, a stalwart lawyer, Patricia's vision endured.
+    </p>
+
+    <p>
+      Although Patricia's earthly journey concluded prematurely, her legacy endured through the stewardship of Joseph Mboya and her devoted family. Trina Donelle Mboya, a luminary in her own right, emerged as a cornerstone in realizing Patricia's dream. Leveraging her global perspective and tenacity, Trina spearheaded fundraising endeavors, propelling essential infrastructure projects forward.
+    </p>
+
+    <p>
+      Today, Trina Donelle Mboya stands as a revered figure within the Schield Centre community, affectionately known as "Aunty T" to students, parents, and faculty alike. Her multifaceted contributions, ranging from financial stewardship to pedagogical leadership, epitomize the spirit of dedication and service. Guided by a commitment to excellence, she continues to shape the future of Schield Centre with unwavering passion and resolve.
+    </p>
+  </>
+)}
+
             </div>
             <div className="text-center py-4">
               <button

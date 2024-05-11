@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+
+
+
+
+  import React, { useState, useEffect } from 'react';
 import { faDonate } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion, useAnimation } from 'framer-motion';
@@ -16,6 +20,7 @@ const Child: React.FC = () => {
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [ref, inView] = useInView();
   const controls = useAnimation();
+  const [showFullBio, setShowFullBio] = useState<{ [key: number]: boolean }>({});
 
   const students: Student[] = [
     {
@@ -105,6 +110,13 @@ const Child: React.FC = () => {
     setSelectedStudent(student);
   };
 
+  const toggleBioDisplay = (id: number) => {
+    setShowFullBio((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
+
   const truncateWords = (str: string, numWords: number) => {
     const words = str.split(' ');
     if (words.length <= numWords) {
@@ -158,12 +170,20 @@ const Child: React.FC = () => {
               <div className="p-6">
                 <h2 className="text-xl font-semibold text-gray-900">{item.name}</h2>
                 <p className="mt-2 text-green-600">{item.grade}</p>
-                <p className="text-lg leading-relaxed truncate-overflow">{truncateWords(item.bio, 5)}</p>
+                <p className="text-lg leading-relaxed">
+                  {showFullBio[item.id] ? item.bio : truncateWords(item.bio, 5)}
+                </p>
                 <button
                   className="text-green-500 inline-block mt-4 underline"
+                  onClick={() => toggleBioDisplay(item.id)}
+                >
+                  {showFullBio[item.id] ? 'Read Less' : 'Read More'}
+                </button>
+                <button
+                  className="text-green-500 inline-block mt-4 ml-4 underline"
                   onClick={() => showModal(item)}
                 >
-                  Read more
+                  Sponsor
                 </button>
               </div>
             </motion.div>
@@ -185,14 +205,12 @@ const Child: React.FC = () => {
                 Close
               </button>
               <a
-  href="/donate" // Replace with your actual donation page path
-  className="text-green-500 font-extrabold text-2xl hover:text-red-800 ml-4 flex items-center space-x-1"
->
-  <FontAwesomeIcon icon={faDonate} className="mr-0" />
-  Donate
-</a>
-
-
+                href="/donate" // Replace with your actual donation page path
+                className="text-green-500 font-extrabold text-2xl hover:text-red-800 ml-4 flex items-center space-x-1"
+              >
+                <FontAwesomeIcon icon={faDonate} className="mr-0" />
+                Donate
+              </a>
             </div>
           </div>
         </div>

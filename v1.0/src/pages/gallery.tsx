@@ -1,7 +1,5 @@
-"use client"
-// Gallery.tsx
-import React, { useState } from 'react';
 
+import React, { useState, useEffect } from 'react';
 
 // Media type enumeration
 enum MediaType {
@@ -20,6 +18,8 @@ interface GalleryItem {
   date: string;
 }
 
+// Sample gallery items
+// Sample gallery items
 const galleryItems: GalleryItem[] = [
   {
     id: 1,
@@ -273,24 +273,41 @@ const galleryItems: GalleryItem[] = [
 
 // GalleryItem component
 const GalleryItem: React.FC<{ item: GalleryItem; openModal: (item: GalleryItem) => void }> = ({ item, openModal }) => {
-  const getYoutubeVideoId = (url: string): string => {
-    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/)?([a-zA-Z0-9\-_]+)/;
-    const match = url.match(regex);
-    return match ? match[1] : '';
+  const [hovered, setHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
   };
 
   const handleClick = () => {
     openModal(item);
   };
 
+  const getYoutubeVideoId = (url: string): string => {
+    const videoIdRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(videoIdRegex);
+    return match && match[1] ? match[1] : '';
+  };
+
   return (
     <div
-      key={item.id}
-      className="backdrop-blur-2xl rounded-2xl items-center shadow p-6 cursor-pointer hover:shadow-lg transition duration-300"
+      className="relative overflow-hidden rounded-2xl items-center shadow p-6 cursor-pointer hover:shadow-lg transition duration-300"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
       {item.type === MediaType.Image && (
-        <img src={item.url} alt={`Image ${item.id}`} width={400} height={300} />
+        <img
+          src={item.url}
+          alt={`Image ${item.id}`}
+          className={`w-64 h-64 object-cover transform transition duration-300 ${
+            hovered ? 'scale-105' : ''
+          }`}
+        />
       )}
       {item.type === MediaType.Video && (
         <div className="relative w-full">
@@ -313,24 +330,73 @@ const GalleryItem: React.FC<{ item: GalleryItem; openModal: (item: GalleryItem) 
   );
 };
 
-// MediaViewer component (replace this with your actual implementation)
+// MediaViewer component
 interface MediaViewerProps {
   media: GalleryItem;
   onClose: () => void;
 }
 
 const MediaViewer: React.FC<MediaViewerProps> = ({ media, onClose }) => {
-  // Implement your media viewer UI here based on the selected media
-  return (
-    <div>
-      <h2>{media.album}</h2>
-      {/* Add rendering logic based on media type (Image, Video, Youtube) */}
-      {/* Add a close button or overlay to close the media viewer */}
-      <button onClick={onClose}>Close</button>
+  const [showModal, setShowModal] = useState(true);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const modal = document.querySelector('.modal');
+      if (modal && !modal.contains(event.target as Node)) {
+        setShowModal(false);
+        onClose();
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, [onClose]);
+
+  function getYoutubeVideoId(_url: string) {
+    throw new Error('Function not implemented.');
+  }
+
+  return showModal ? (
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300"
+      style={{ opacity: showModal ? 1 : 0 }}
+    >
+      <div
+        className="modal bg-white p-8 rounded-lg z-10 max-w-full max-h-full overflow-auto transform transition-all duration-300"
+        style={{ opacity: showModal ? 1 : 0, transform: showModal ? 'scale(1)' : 'scale(0.75)' }}
+      >
+        {media.type === MediaType.Image && (
+          <img src={media.url} alt={`Image ${media.id}`} className="w-full h-auto" />
+        )}
+        {media.type === MediaType.Video && (
+          <video src={media.videoUrl} controls className="w-full h-auto">
+            Sorry, your browser doesn&apos;t support embedded videos.
+          </video>
+        )}
+        {media.type === MediaType.Youtube && (
+          <div className="relative w-full">
+            <iframe
+              src={`https://www.youtube.com/embed/${getYoutubeVideoId(media.url)}`}
+              title="YouTube Video"
+              className="w-full h-auto"
+              allowFullScreen
+            ></iframe>
+          </div>
+        )}
+        <button
+          className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 transition duration-300"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
     </div>
-  );
+  ) : null;
 };
 
+// Rest of the code remains the same
 // GallerySection component
 const GallerySection: React.FC<{
   album: string;
@@ -352,7 +418,8 @@ const GallerySection: React.FC<{
   }
 
   return (
-    <section key={album} className="mb-8">
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold mb-4">{album}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredItems.map((item) => (
           <GalleryItem key={item.id} item={item} openModal={openModal} />
@@ -366,6 +433,7 @@ const GallerySection: React.FC<{
 const Gallery: React.FC = () => {
   const [selectedMedia, setSelectedMedia] = useState<GalleryItem | null>(null);
   const [activeTab, setActiveTab] = useState<MediaType>(MediaType.Image);
+  const [selectedAlbum, setSelectedAlbum] = useState<string | null>(null);
 
   const openModal = (item: GalleryItem) => {
     setSelectedMedia(item);
@@ -376,44 +444,78 @@ const Gallery: React.FC = () => {
   };
 
   return (
-    <>
-       <div className="min-h-screen w-screen bg-emerald-800">
-        <main className=" mx-auto py-8">
-          <h1 className="text-4xl font-extrabold mb-4 bg-gradient-to-r from-green-500 rounded-full p-4">Gallery</h1>
+    <div className="min-h-screen w-screen bg-emerald-800">
+      <main className="mx-auto py-8">
+        <h1 className="text-4xl font-extrabold mb-4 bg-gradient-to-r from-green-500 rounded-full p-4">Gallery</h1>
 
-          <div className="flex mb-4">
-            <button
-              className={`mr-4 ${
-                activeTab === MediaType.Image ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
-              } px-4 py-2 rounded`}
-              onClick={() => setActiveTab(MediaType.Image)}
-            >
-              Images
-            </button>
-            <button
-              className={`${
-                activeTab === MediaType.Video ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
-              } px-4 py-2 rounded`}
-              onClick={() => setActiveTab(MediaType.Video)}
-            >
-              Videos
-            </button>
-          </div>
+        <div className="flex mb-4">
+          <button
+            className={`mr-4 ${
+              activeTab === MediaType.Image ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
+            } px-4 py-2 rounded`}
+            onClick={() => setActiveTab(MediaType.Image)}
+          >
+            Images
+          </button>
+          <button
+            className={`${
+              activeTab === MediaType.Video ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
+            } px-4 py-2 rounded`}
+            onClick={() => setActiveTab(MediaType.Video)}
+          >
+            Videos
+          </button>
+        </div>
 
+        {/* Add album view option */}
+        <div className="flex mb-4 space-x-4 overflow-x-auto scrollbar-hide">
+          <button
+            className={`px-4 py-2 rounded ${
+              selectedAlbum === null ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
+            }`}
+            onClick={() => setSelectedAlbum(null)}
+          >
+            All Albums
+          </button>
           {Array.from(new Set(galleryItems.map((item) => item.album))).map((album) => (
-            <GallerySection
+            <button
               key={album}
-              album={album}
-              items={galleryItems}
-              activeTab={activeTab}
-              openModal={openModal}
-            />
+              className={`px-4 py-2 rounded ${
+                selectedAlbum === album ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
+              }`}
+              onClick={() => setSelectedAlbum(album)}
+            >
+              {album}
+            </button>
           ))}
-        </main>
-      </div>
-      {/* Use a conditional rendering to show MediaViewer only when there is a selected media */}
-      {selectedMedia && <MediaViewer media={selectedMedia} onClose={closeModal} />}
-    </>
+        </div>
+
+        {selectedAlbum === null ? (
+          // Show all items if no album is selected
+          <>
+            {Array.from(new Set(galleryItems.map((item) => item.album))).map((album) => (
+              <GallerySection
+                key={album}
+                album={album}
+                items={galleryItems}
+                activeTab={activeTab}
+                openModal={openModal}
+              />
+            ))}
+          </>
+        ) : (
+          // Show items based on selected album
+          <GallerySection
+            album={selectedAlbum}
+            items={galleryItems}
+            activeTab={activeTab}
+            openModal={openModal}
+          />
+        )}
+        {/* MediaViewer modal */}
+        {selectedMedia && <MediaViewer media={selectedMedia} onClose={closeModal} />}
+      </main>
+    </div>
   );
 };
 
