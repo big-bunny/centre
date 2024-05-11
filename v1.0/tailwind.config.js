@@ -9,4 +9,10 @@ export default {
     extend: {},
   },
   plugins: [],
+  colors: {
+    golden: '#ffd700', // Replace with the desired golden color code
+  },
+  borderColor: {
+    golden: '#ffd700', // Replace with the desired golden color code
+  },
 }

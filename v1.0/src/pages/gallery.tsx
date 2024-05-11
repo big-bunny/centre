@@ -377,7 +377,7 @@ const Gallery: React.FC = () => {
 
   return (
     <>
-       <div className="min-h-screen w-screen bg-cover" style={{ backgroundImage: 'url(/images/bg/yb.jpg)' }}>
+       <div className="min-h-screen w-screen bg-emerald-800">
         <main className=" mx-auto py-8">
           <h1 className="text-4xl font-extrabold mb-4 bg-gradient-to-r from-green-500 rounded-full p-4">Gallery</h1>
 

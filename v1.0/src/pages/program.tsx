@@ -17,53 +17,60 @@ const SponsorProgram = () => {
     {
       id: 1,
       title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
-      image: '/images/programs/art.jpg',
-    },  {
-      id: 1,
-      title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
-      image: '/images/programs/art.jpg',
-    },  {
-      id: 1,
-      title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
-      image: '/images/programs/art.jpg',
-    },  {
-      id: 1,
-      title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
+      description: 'Support students interested in art and design. Help them explore their creativity and develop their artistic skills.',
       image: '/images/programs/art.jpg',
     },
     {
-      id: 1,
-      title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
-      image: '/images/programs/art.jpg',
-    },  {
-      id: 1,
-      title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
-      image: '/images/programs/art.jpg',
-    },  {
-      id: 1,
-      title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
-      image: '/images/programs/art.jpg',
-    },  {
-      id: 1,
-      title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
-      image: '/images/programs/art.jpg',
-    },  {
-      id: 1,
-      title: 'Art and Design',
-      description: 'Support students interested in art and design. Help them explore their creativity and pursue their dreams.',
-      image: '/images/programs/art.jpg',
+      id: 2,
+      title: 'Chess Club',
+      description: 'Empower students with strategic thinking and problem-solving skills through the classic game of chess. Donations help provide equipment and tournament participation opportunities.',
+      image: '/images/programs/chess.jpg', // Replace with your image path
     },
-    // Add more programs as needed
+    {
+      id: 3,
+      title: 'Swimming',
+      description: 'Invest in the health and well-being of students. Your support allows us to offer swimming lessons, promote water safety, and build a strong swimming team.',
+      image: '/images/programs/swimming.jpg', // Replace with your image path
+    },
+    {
+      id: 4,
+      title: 'Law Club',
+      description: 'Spark students\' interest in law and justice. Donations provide resources for mock trials, guest speakers, and educational field trips.',
+      image: '/images/programs/law.jpg', // Replace with your image path
+    },
+    {
+      id: 5,
+      title: 'Journalism',
+      description: 'Nurture the next generation of storytellers. Your support fuels our school newspaper, yearbook, and media production activities.',
+      image: '/images/programs/journalism.jpg', // Replace with your image path
+    },
+    {
+      id: 6,
+      title: 'Cricket Club',
+      description: 'Cultivate teamwork, sportsmanship, and a love for cricket. Donations help us maintain equipment, host tournaments, and provide opportunities for students to excel.',
+      image: '/images/programs/cricket.jpg', // Replace with your image path
+    },
+    // Add more programs as needed!
+    {
+      id: 7,
+      title: 'Music',
+      description: 'Unleash the musical talents of our students. Your support provides instruments, fosters music appreciation, and encourages participation in concerts and performances.',
+      image: '/images/programs/music.jpg', // Replace with your image path
+    },
+    {
+      id: 8,
+      title: 'Debate Team',
+      description: 'Equip students with critical thinking, research, and public speaking skills. Donations help us participate in debates, travel to competitions, and develop future leaders.',
+      image: '/images/programs/debate.jpg', // Replace with your image path
+    },
+    {
+      id: 9,
+      title: 'Codig and Robotics',
+      description: 'Fuel the future innovators! Your support provides resources for science labs, technology projects, and field trips to ignite scientific curiosity.',
+      image: '/images/programs/c&d.jpg', // Replace with your image path
+    },
   ];
-
+  
   const showModal = (program: Program) => {
     setSelectedProgram(program);
   };
@@ -114,10 +121,14 @@ const SponsorProgram = () => {
               >
                 Close
               </button>
-              <button className="text-green-500 font-extrabold text-2xl hover:text-red-800 ml-4 flex items-center space-x-1">
-                <FontAwesomeIcon icon={faDonate} className="mr-0" />
-                Donate
-              </button>
+              <a
+  href="/donate" // Replace with your actual donation page path
+  className="text-green-500 font-extrabold text-2xl hover:text-red-800 ml-4 flex items-center space-x-1"
+>
+  <FontAwesomeIcon icon={faDonate} className="mr-0" />
+  Donate
+</a>
+
             </div>
           </div>
         </div>

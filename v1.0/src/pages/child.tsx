@@ -184,12 +184,15 @@ const Child: React.FC = () => {
               >
                 Close
               </button>
-              <button
-                className="text-green-500 font-extrabold text-2xl hover:text-red-800 ml-4 flex items-center space-x-1"
-              >
-                <FontAwesomeIcon icon={faDonate} className="mr-0" />
-                Donate
-              </button>
+              <a
+  href="/donate" // Replace with your actual donation page path
+  className="text-green-500 font-extrabold text-2xl hover:text-red-800 ml-4 flex items-center space-x-1"
+>
+  <FontAwesomeIcon icon={faDonate} className="mr-0" />
+  Donate
+</a>
+
+
             </div>
           </div>
         </div>

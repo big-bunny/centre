@@ -16,7 +16,7 @@ if (!PUBLISHABLE_KEY) {
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
    
-      <div className="min-h-screen bg-cover bg-green-800">
+      <div className="min-h-screen min-w-screen bg-cover bg-green-800">
         <Header />
         <div className="container mx-auto py-40">{children}</div>
         <Footer />

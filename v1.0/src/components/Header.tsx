@@ -4,7 +4,6 @@ import UserGreeting from './UserGreeting';
 import logo from '../../public/g-Logo.png';
 
 const Header = () => {
-  const [] = useState(false);
   const [isMenuDropdownOpen, setMenuDropdownOpen] = useState(false);
   const [isDonateDropdownOpen, setDonateDropdownOpen] = useState(false);
   const { isSignedIn } = useUser();
@@ -30,7 +29,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="backdrop-blur-3xl text-white py-4 relative z-50">
+    <header className="bg-black bg-opacity-50 backdrop-filter backdrop-blur-3xl text-white py-4 relative z-50">
       <div className="container mx-auto flex items-center justify-between">
         {/* Replace text with logo */}
         <a href="/" className="flex items-center">
@@ -46,46 +45,48 @@ const Header = () => {
           </button>
         </div>
         <nav
-          className={`md:hidden fixed top-0 right-0 w-3/4 h-screen bg-gray-800 z-50 transition-transform transform ${
+          className={`md:hidden fixed top-0 right-0 w-3/4 h-screen bg-black bg-opacity-50 backdrop-filter backdrop-blur-3xl z-50 transition-transform transform ${
             isMenuDropdownOpen ? 'translate-x-0' : 'translate-x-full'
           } duration-500 ease-in-out flex flex-col justify-start items-start px-6`}
         >
           {isMenuDropdownOpen && (
             <div
-              className="p-2 bg-gray-800 rounded-lg shadow-md transform scale-100 transition-transform duration-500 ease-in-out origin-top-right z-60"
+              className="p-4 bg-emerald-600 bg-opacity-90 rounded-lg shadow-md transform scale-100 transition-transform duration-500 ease-in-out origin-top-right z-60"
               onClick={() => setMenuDropdownOpen(false)}
             >
               {menuDropdown.map((item, index) => (
                 <a
                   key={index}
                   href={item.url}
-                  className="block hover:text-gray-400 py-2 px-4 transition-colors duration-300 hover:skew-x-3 hover:animate-bounce"
+                  className="block text-white hover:text-gray-300 py-2 px-4 transition-colors duration-300 hover:skew-x-3 hover:animate-bounce"
                 >
                   {item.text}
                 </a>
               ))}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDonateDropdownOpen(!isDonateDropdownOpen);
-                }}
-                className="block hover:text-gray-400 py-2 px-4 transition-colors duration-300 hover:skew-x-3"
-              >
-                Donate
-              </button>
-              {isDonateDropdownOpen && (
-                <div className="mt-2 p-2 bg-gray-800 rounded-lg shadow-md transform -translate-x-full transition-transform duration-500 ease-in-out">
-                  {donateDropdown.map((item, index) => (
-                    <a
-                      key={index}
-                      href={item.url}
-                      className="block hover:text-gray-400 py-2 px-4 transition-colors duration-300 hover:skew-x-3 hover:animate-bounce"
-                    >
-                      {item.text}
-                    </a>
-                  ))}
-                </div>
-              )}
+              <div className="relative">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDonateDropdownOpen(!isDonateDropdownOpen);
+                  }}
+                  className="block text-white hover:text-gray-300 py-2 px-4 transition-colors duration-300 hover:skew-x-3"
+                >
+                  Donate
+                </button>
+                {isDonateDropdownOpen && (
+                  <div className="absolute left-0 mt-2 p-2 bg-gray-800 rounded-lg shadow-md transform transition-transform duration-500 ease-in-out">
+                    {donateDropdown.map((item, index) => (
+                      <a
+                        key={index}
+                        href={item.url}
+                        className="block hover:text-gray-400 py-2 px-4 transition-colors duration-300 hover:skew-x-3 hover:animate-bounce"
+                      >
+                        {item.text}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </nav>
@@ -99,28 +100,30 @@ const Header = () => {
               {item.text}
             </a>
           ))}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setDonateDropdownOpen(!isDonateDropdownOpen);
-            }}
-            className="hover:text-gray-400 transition-colors duration-300 hover:skew-x-3"
-          >
-            Donate
-          </button>
-          {isDonateDropdownOpen && (
-            <div className="mt-2 p-2 bg-gray-800 rounded-lg shadow-md transform -translate-x-full transition-transform duration-500 ease-in-out">
-              {donateDropdown.map((item, index) => (
-                <a
-                  key={index}
-                  href={item.url}
-                  className="block hover:text-gray-400 py-2 px-4 transition-colors duration-300 hover:skew-x-3 hover:animate-bounce"
-                >
-                  {item.text}
-                </a>
-              ))}
-            </div>
-          )}
+          <div className="relative inline-block">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setDonateDropdownOpen(!isDonateDropdownOpen);
+              }}
+              className="hover:text-gray-400 transition-colors duration-300 hover:skew-x-3"
+            >
+              Donate
+            </button>
+            {isDonateDropdownOpen && (
+              <div className="absolute left-0 mt-2 p-2 bg-gray-800 rounded-lg shadow-md transform transition-transform duration-500 ease-in-out">
+                {donateDropdown.map((item, index) => (
+                  <a
+                    key={index}
+                    href={item.url}
+                    className="block hover:text-gray-400 py-2 px-4 transition-colors duration-300 hover:skew-x-3 hover:animate-bounce"
+                  >
+                    {item.text}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
         <div>
           {isSignedIn ? <UserButton /> : <UserGreeting />}
