@@ -1,9 +1,6 @@
 
 
-  "use client"
 import { useState } from 'react';
-import { faDonate } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Program {
   id: number;
@@ -11,6 +8,7 @@ interface Program {
   description: string;
   image: string;
 }
+
 const programs: Program[] = [
   {
     id: 1,
@@ -69,14 +67,8 @@ const programs: Program[] = [
   },
 ];
 const SponsorProgram = () => {
-  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
+  const [] = useState<Program | null>(null);
   const [showFullDescription, setShowFullDescription] = useState<{ [key: number]: boolean }>({});
-
-
-
-  const showModal = (program: Program) => {
-    setSelectedProgram(program);
-  };
 
   const toggleDescriptionDisplay = (id: number) => {
     setShowFullDescription((prevState) => ({
@@ -93,6 +85,10 @@ const SponsorProgram = () => {
       const truncatedWords = words.slice(0, numWords);
       return truncatedWords.join(' ') + '...';
     }
+  };
+
+  const sponsorProgram = (_program: Program) => {
+    window.location.href = '/donate'; // Redirect to the donate page
   };
 
   return (
@@ -118,42 +114,17 @@ const SponsorProgram = () => {
                 >
                   {showFullDescription[program.id] ? 'Read Less' : 'Read More'}
                 </button>
-                <a
-                  href="#"
+                <button
                   className="text-green-500 inline-block mt-4 ml-4 underline"
-                  onClick={() => showModal(program)}
+                  onClick={() => sponsorProgram(program)}
                 >
                   Sponsor
-                </a>
+                </button>
               </div>
             </div>
           ))}
         </div>
       </div>
-
-      {selectedProgram && (
-        <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white max-w-md mx-auto rounded-lg overflow-hidden p-8">
-            <h2 className="text-3xl font-extrabold mb-2">{selectedProgram.title}</h2>
-            <p className="text-base leading-relaxed mb-8">{selectedProgram.description}</p>
-            <div className="flex justify-end">
-              <button
-                className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg"
-                onClick={() => setSelectedProgram(null)}
-              >
-                Close
-              </button>
-              <a
-                href="/donate" // Replace with your actual donation page path
-                className="text-green-500 font-extrabold text-2xl hover:text-red-800 ml-4 flex items-center space-x-1"
-              >
-                <FontAwesomeIcon icon={faDonate} className="mr-0" />
-                Donate
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
