@@ -186,37 +186,37 @@ const galleryItems: GalleryItem[] = [
   {
     id: 25,
     type: MediaType.Image,
-    url: '/images/gallery/community/judy219.JPG',
+    url: '/images/gallery/community/judy219.jpg',
     album: '2019',
     date: '2019-01-01',
   },
   {
     id: 26,
     type: MediaType.Image,
-    url: '/images/gallery/community/monkeybars.JPG',
+    url: '/images/gallery/community/monkeybars.jpg',
     album: '2019',
     date: '2019-01-02',
   },
-  {
+   {
     id: 27,
     type: MediaType.Image,
-    url: '/images/gallery/community/agric1.JPG',
+    url: '/images/gallery/community/monkeybars.jpg',
     album: '2019',
-    date: '2019-01-03',
+    date: '2019-01-02',
   },
-  {
+   {
     id: 28,
     type: MediaType.Image,
-    url: '/images/gallery/community/agric2.JPG',
+    url: '/images/gallery/community/monkeybars.jpg',
     album: '2019',
-    date: '2019-01-04',
+    date: '2019-01-02',
   },
-  {
+   {
     id: 29,
     type: MediaType.Image,
-    url: '/images/gallery/community/agric3.JPG',
+    url: '/images/gallery/community/monkeybars.jpg',
     album: '2019',
-    date: '2019-01-05',
+    date: '2019-01-02',
   },
   {
     id: 30,
@@ -288,7 +288,7 @@ const GalleryItem: React.FC<{ item: GalleryItem; openModal: (item: GalleryItem) 
   };
 
   const getYoutubeVideoId = (url: string): string => {
-    const videoIdRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const videoIdRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/;
     const match = url.match(videoIdRegex);
     return match && match[1] ? match[1] : '';
   };
@@ -354,6 +354,7 @@ const MediaViewer: React.FC<MediaViewerProps> = ({ media, onClose }) => {
     };
   }, [onClose]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function getYoutubeVideoId(_url: string) {
     throw new Error('Function not implemented.');
   }
