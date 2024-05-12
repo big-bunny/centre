@@ -5,7 +5,7 @@ import App from './App.tsx';
 import Home from './pages/home.tsx';
 import About from './pages/about.tsx';
 import './index.css';
-import { ClerkProvider } from '@clerk/clerk-react';
+import { ClerkProvider, SignIn, SignUp } from '@clerk/clerk-react';
 import Team from './pages/team.tsx';
 import Gallery from './pages/gallery.tsx';
 import Child from './pages/child.tsx';
@@ -29,18 +29,20 @@ if (rootElement) {
       <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
         <Router>
           <RootLayout>
-            <Routes>
-              <Route path="/" element={<App />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/child" element={<Child />} />
-              <Route path="/program" element={<SponsorProgram />} />
-              <Route path="/donate" element={<DonationPage />} />
-              <Route path="/redirect" element={<Navigate to="/home" />} />
-              <Route path="*" element={<LandingPage />} /> {/* Catch-all route for initial load */}
-            </Routes>
+          <Routes>
+  <Route path="/" element={<App />} />
+  <Route path="/home" element={<Home />} />
+  <Route path="/about" element={<About />} />
+  <Route path="/team" element={<Team />} />
+  <Route path="/gallery" element={<Gallery />} />
+  <Route path="/child" element={<Child />} />
+  <Route path="/program" element={<SponsorProgram />} />
+  <Route path="/donate" element={<DonationPage />} />
+  <Route path="/sign-in" element={<SignIn redirectUrl={window.location.pathname} />} />
+  <Route path="/sign-up" element={<SignUp redirectUrl={window.location.pathname} />} />
+  <Route path="/redirect" element={<Navigate to="/home" />} />
+  <Route path="*" element={<LandingPage />} />
+</Routes>
           </RootLayout>
         </Router>
       </ClerkProvider>

@@ -39,11 +39,11 @@ const Home = () => {
   const testimonials = [
     {
       id: 4,
-      quote: 'Stanley is currently in Grade 3 and is doing well. He came to us after his parent split and the mother was thrown out of the house with no where to go. Our head teacher was called as he was of the same tribe to see how the mother and children could be helped as they were found sitting on the side of the road in the rain.The mother had nothing except a small bag of clothes. We accepted Stanley into our program and a lovely lady from Carnavon in Western Australia has been assisting him. Initially he was very low in his academics and we put him back a class as he was struggling. After doing this he was able to stabilize and now doing very well. Thankyou Mrs J for your assistance.',
+      quote: 'Stanley is currently in Grade 3 and is doing well. He came to us after his parent split and the mother was thrown out of the house with no where to go...',
       author: 'Mark Stanley',
       image: '/images/testimonials/testimonial1.jpg',
       resultsChart: '/images/testimonials/MarkStanley.jpg',
-      videoUrl: '/images/testimonials/MarkStanely.mp4',
+      videoUrl: '/images/testimonials/MarkStanley.mp4', // Corrected file name
     },
     {
       id: 5,

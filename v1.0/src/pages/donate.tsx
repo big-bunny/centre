@@ -1,74 +1,110 @@
+import { useState, useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
 import DonateButton from '../components/Donate';
-import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { motion } from 'framer-motion';
-import { Protect, RedirectToSignIn } from '@clerk/clerk-react'; // Import RedirectToSignIn
+import { faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons';
 
-const DonationPage: React.FC = () => {
+const DonationPage = () => {
   const [isCardHovered, setIsCardHovered] = useState(false);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    controls.start('visible');
+  }, [controls]);
+
+  const headingVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.2,
+        duration: 0.6,
+        ease: 'easeInOut',
+        when: 'beforeChildren',
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: 'easeInOut',
+      },
+    },
+  };
 
   return (
-    <Protect
-      permission="org:invoices:create"
-      fallback={<RedirectToSignIn />} // Redirect to sign in if user is not authenticated
-    >
-      <div className="h-screen w-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: 'url("/images/bg/bbg.jpg")' }}>
+    <div className="min-h-screen w-screen flex items-center justify-center bg-cover bg-center relative" style={{ backgroundImage: 'url("/images/bg/bbg.jpg")' }}>
+      {/* Semi-transparent green overlay */}
+      <div className="absolute inset-0 bg-green-800 bg-opacity-30 blur"></div>
+
+      <motion.div
+        className="max-w-xl w-full backdrop-blur-3xl bg-opacity-90 backdrop-blur-md p-8 shadow-lg rounded-lg"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        onHoverStart={() => setIsCardHovered(true)}
+        onHoverEnd={() => setIsCardHovered(false)}
+      >
         <motion.div
-          className="max-w-xl w-full backdrop-blur-2xl bg-opacity-90 backdrop-blur-md p-8 shadow-lg rounded-lg"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          onHoverStart={() => setIsCardHovered(true)}
-          onHoverEnd={() => setIsCardHovered(false)}
+          className="mb-8 text-center"
+          animate={{ scale: isCardHovered ? 1.1 : 1 }}
+          transition={{ duration: 0.3 }}
         >
-          <motion.div
-            className="mb-8 text-center"
-            animate={{ scale: isCardHovered ? 1.1 : 1 }}
-            transition={{ duration: 0.3 }}
+          <motion.h2
+            className="text-3xl font-bold text-primary mb-4 font-serif"
+            variants={headingVariants}
+            initial="hidden"
+            animate={controls}
           >
-            <h2 className="text-2xl font-extrabold mb-2">Donate with Confidence</h2>
-            <p className="text-gray-900 font-bold">Your contribution goes directly towards changing lives.</p>
-          </motion.div>
-
-          <div className="mb-6">
-            <div className="flex items-center mb-4">
-              <FontAwesomeIcon icon={faUser} className="text-green-500 mr-2" />
-              <h3 className="text-lg font-semibold">Secure and Trusted</h3>
-            </div>
-            <p className="text-black font-bold">We are a registered non-profit organization, and all donations are tax-deductible. Your personal information is kept safe and confidential.</p>
-          </div>
-
-          <form>
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
-                <FontAwesomeIcon icon={faUser} className="mr-2" /> Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter name of student or program you are donating to"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
-                <FontAwesomeIcon icon={faEnvelope} className="mr-2" /> Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter your email"
-              />
-            </div>
-            <div className="flex items-center justify-end">
-              <DonateButton />
-            </div>
-          </form>
+            Empowering Lives, <span className="text-secondary">One Donation</span> at a Time
+          </motion.h2>
+          <motion.p
+            className="text-lg font-medium text-gray-800 font-sans"
+            variants={textVariants}
+            initial="hidden"
+            animate={controls}
+          >
+            Your generous contribution directly supports our mission to create lasting positive change.
+          </motion.p>
         </motion.div>
-      </div>
-    </Protect>
+
+        <motion.div
+          className="mb-8"
+          variants={textVariants}
+          initial="hidden"
+          animate={controls}
+        >
+          <div className="flex items-center mb-4">
+            <FontAwesomeIcon icon={faHandHoldingHeart} className="text-primary mr-4" size="lg" />
+            <h3 className="text-xl font-semibold text-gray-800 font-serif">Trusted and Transparent</h3>
+          </div>
+          <p className="text-white font-medium font-sans">
+            As a registered 501(c)(3) non-profit organization, we uphold the highest standards of integrity and accountability. Your donation is tax-deductible, and your personal information is kept secure and confidential.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={textVariants}
+          initial="hidden"
+          animate={controls}
+        >
+          <SignedIn>
+            <DonateButton />
+          </SignedIn>
+          <SignedOut>
+            <RedirectToSignIn />
+          </SignedOut>
+        </motion.div>
+      </motion.div>
+    </div>
   );
 };
 
